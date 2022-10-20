@@ -9,20 +9,15 @@
 ## NP-completeness
 * VRP is extnesion of TSP and TSP is NP-complete
 ## Applications
-## Extensions
-* Vehicles capacities
-* Time windows
-* Green VRP
-* Multiple pickups
-* Generalizied resources
-  * https://developers.google.com/optimization/routing/dimensions
 ## Special cases
 * Euclidean metric
 # Logistics vehicle routing problem
-* Time winodws
+* Time windows
 * Vehicles capacities
+* Multi pickup
 * Working hours
 * Electric vehicles
+* Resources
 # Exact solutions
 ## Branch and bound
 # Approximate solutions
