@@ -11,5 +11,5 @@
 * Approximate solutions for (dynamic) constrained VRP
 ## Goals
 * Find ways to process request from customers in realtime in dynamic VRP
-* Descripe solution approaches using different techniques like LP, GA, AC
+* Descripe solution approaches using different techniques like linear programming, genetic algorithms, ant colonies
 * Mesaure performance of those techniques and compare them

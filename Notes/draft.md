@@ -39,8 +39,11 @@
 * Working hours
 * Electric vehicles
 * Resources
-* Clustering close vertices
-* ### Problem decomposition
+
+### Problem decomposition
+* Routing - VRP
+* Clustering close nodes - k-means
+* Processing new requests - SAT
   
 ## Approximate solution approaches
 * https://openreview.net/pdf?id=BJe1334YDH
