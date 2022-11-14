@@ -44,7 +44,30 @@
 * Routing - VRP
 * Clustering close nodes - k-means
 * Processing new requests - SAT
-  
+
+### Problem definition
+* We are woking in discrete time, current time is stated by variable (or index) t
+* We start at time t=0 with fixed fleet of vehicles of certain capacity, each vehicle has
+    * Capacity
+    * Price per km
+    * Price per hour
+* There are no fixed locations, new request can appear anywhere on map (map is euclidean space with metric d) - location of pickup
+* Request includes several informations that dont chagne anymore (in future, request canceling can be assumed)
+  * Pick-up location
+  * Pick-up time window (maximal waiting time)
+  * Drop-off location
+  * Drop-off time wondow (endmost time of arrival)
+  * Amount of goods (persons, parcels...)
+  * Maximal price ??? (in practise, price may be customer accepted or denied by customer)
+* Every time new request apperas recalculation of current plan is needed
+  * Simple approach
+    * Each vehicles has its queue of cutomers
+    * Try new customer add to queue of every vehicle and select the best one
+  * Complicated approach
+    * Solve VRP
+    * We need to take into account that some vehicles are driving so theirs locations is changing permanently
+      * This can be solved by solving VRP assuming vehicles location in next pick-up
+
 ## Approximate solution approaches
 * https://openreview.net/pdf?id=BJe1334YDH
 ### Linear programming
