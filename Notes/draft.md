@@ -64,9 +64,15 @@
       * This can be solved by solving VRP assuming vehicles location in next pick-up
 
 
+### Possible approaches
 
-### Linear programming solution
+#### Naive
 
+
+#### Linear programming
+
+
+#### GA
 
 
 ## Approximate solution approaches
