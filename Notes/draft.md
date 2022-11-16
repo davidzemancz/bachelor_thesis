@@ -40,11 +40,6 @@
 * Electric vehicles
 * Resources
 
-### Problem decomposition
-* Routing - VRP
-* Clustering close nodes - k-means
-* Processing new requests - SAT
-
 ### Problem definition
 * We are woking in discrete time, current time is stated by variable (or index) t
 * We start at time t=0 with fixed fleet of vehicles of certain capacity, each vehicle has
@@ -52,7 +47,7 @@
     * Price per km
     * Price per hour
 * There are no fixed locations, new request can appear anywhere on map (map is euclidean space with metric d) - location of pickup
-* Request includes several informations that dont chagne anymore (in future, request canceling can be assumed)
+* Request includes several informations that dont chagne anymore (in future, request canceling could be assumed)
   * Pick-up location
   * Pick-up time window (maximal waiting time)
   * Drop-off location
@@ -63,10 +58,16 @@
   * Simple approach
     * Each vehicles has its queue of cutomers
     * Try new customer add to queue of every vehicle and select the best one
-  * Complicated approach
+  * Complicated approach (but more accurate)
     * Solve VRP
     * We need to take into account that some vehicles are driving so theirs locations is changing permanently
       * This can be solved by solving VRP assuming vehicles location in next pick-up
+
+
+
+### Linear programming solution
+
+
 
 ## Approximate solution approaches
 * https://openreview.net/pdf?id=BJe1334YDH

@@ -1,2 +1,0 @@
-# Ideas
-* Green VRP
