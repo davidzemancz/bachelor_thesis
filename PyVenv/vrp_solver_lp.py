@@ -36,3 +36,7 @@ print('\nAdvanced usage:')
 print('Problem solved in %f milliseconds' % solver.wall_time())
 print('Problem solved in %d iterations' % solver.iterations())
 print('Problem solved in %d branch-and-bound nodes' % solver.nodes())
+
+
+def solve(vrp):
+    return vrp

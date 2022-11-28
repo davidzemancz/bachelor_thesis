@@ -1,8 +1,4 @@
 
-DEPOT_NODE = 0
-UNDEF_NODE = -1
-
-
 
 class Vehicle:
     NONE = None
@@ -16,7 +12,7 @@ class Vehicle:
 class Order:
     NONE = None
 
-    def __init(self, id, node, demand):
+    def __init__(self, id, node, demand):
         self.id = id
         self.node = node
         self.demand = demand
@@ -26,13 +22,11 @@ class Ride:
         self.vehicle = vehicle
         self.nodes = nodes
 
-class Delivery:
-    def __init__(self, order):
-        self.order = order
-
 class VRP:
-    def __init__(self, nodes):
-        self.nodes = nodes
+
+    def __init__(self, depot_node, nodes_count):
+        self.depot_node = depot_node
+        self.nodes_count = nodes_count
         self.vehicles = []
         self.orders = []
 
