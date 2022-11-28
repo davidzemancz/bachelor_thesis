@@ -1,44 +1,71 @@
 # https://developers.google.com/optimization/mip/mip_example
 
 from ortools.linear_solver import pywraplp
+from vrp import VRP, Ride
+import utils
 
+def solve(vrp : VRP):
 
-def solve(vrp):
-    
+    vehicles_count = len(vrp.vehicles)
+
     solver = pywraplp.Solver.CreateSolver('SCIP')
 
-    infinity = solver.infinity()
-    # x and y are integer non-negative variables.
-    x = solver.IntVar(0.0, infinity, 'x')
-    y = solver.IntVar(0.0, infinity, 'y')
+    # Variables
+    edge_vars = {}
+    for u in range(vrp.nodes_count):
+        for v in range(vrp.nodes_count):
+            if u == v: continue
 
-    print('Number of variables =', solver.NumVariables())
+            var_key = (u, v)
+            var = solver.BoolVar(str(var_key))
+            edge_vars[var_key] = var
 
-    # x + 7 * y <= 17.5.
-    solver.Add(x + 7 * y <= 17.5)
+    # Constraints (https://en.wikipedia.org/wiki/Vehicle_routing_problem#Vehicle_flow_formulations)
+    # 1)
+    for order1 in vrp.orders:
+        solver.Add(sum([edge_vars[var_key] for var_key in edge_vars if var_key[1] == order1.node]) == 1)
 
-    # x <= 3.5.
-    solver.Add(x <= 3.5)
+    # 2)
+    for order1 in vrp.orders:
+        solver.Add(sum([edge_vars[var_key] for var_key in edge_vars if var_key[0] == order1.node]) == 1)
 
-    print('Number of constraints =', solver.NumConstraints())
+    # 3)
+    solver.Add(sum([edge_vars[var_key] for var_key in edge_vars if var_key[0] != vrp.depot_node and var_key[1] == vrp.depot_node]) == vehicles_count)
 
-    # Maximize x + 10 * y.
-    solver.Maximize(x + 10 * y)
+    # 4)
+    solver.Add(sum([edge_vars[var_key] for var_key in edge_vars if var_key[0] == vrp.depot_node and var_key[1] != vrp.depot_node]) == vehicles_count)
+
+    # 5)
+    pwr_set = utils.powerset([(i + 1) for i in range(vrp.nodes_count - 1)])
+    for subset in pwr_set:
+        if len(subset) > 0:
+            solver.Add(sum([edge_vars[var_key] for var_key in edge_vars if var_key[0] not in subset and var_key[1] in subset]) >= 1)
+
+    # Objective function
+    solver.Minimize(sum([edge_vars[var_key] * vrp.dist(var_key[0], var_key[1]) for var_key in edge_vars]))
 
     status = solver.Solve()
 
-    if status == pywraplp.Solver.OPTIMAL:
-        print('Solution:')
-        print('Objective value =', solver.Objective().Value())
-        print('x =', x.solution_value())
-        print('y =', y.solution_value())
-    else:
-        print('The problem does not have an optimal solution.')
+    # Get solution if exists
+    if status != pywraplp.Solver.OPTIMAL:
+        raise SystemError('Solution does not exists')
 
-    print('\nAdvanced usage:')
-    print('Problem solved in %f milliseconds' % solver.wall_time())
-    print('Problem solved in %d iterations' % solver.iterations())
-    print('Problem solved in %d branch-and-bound nodes' % solver.nodes())
+    successors = {}
+    for var_key in edge_vars:
+        edge_var = edge_vars[var_key]
+        value = edge_var.solution_value()
+        
+        if value:
+            if successors.get(var_key[0]) is None: successors[var_key[0]] = []
+            successors[var_key[0]].append(var_key[1])
 
+    vrp.rides = []
+    for succ in successors[vrp.depot_node]:
+        ride_nodes = [vrp.depot_node]
+        ride_nodes.append(succ)
+        while succ != vrp.depot_node:
+            succ = successors[succ][0]
+            ride_nodes.append(succ)
+        vrp.rides.append(Ride(0, ride_nodes))
 
     return vrp

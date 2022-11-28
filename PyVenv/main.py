@@ -28,5 +28,6 @@ vrp.rides = [
     Ride(vrp.vehicle(3),[vrp.depot_node, 3,7,9,11, vrp.depot_node]),
 ]
 
-solverd_vrp = vrp_solver.solve_ortools(vrp)
+#solverd_vrp = vrp_solver.solve_ortools(vrp)
+solverd_vrp = vrp_solver.solve_lp(vrp)
 vrp_drawer.draw(solverd_vrp)

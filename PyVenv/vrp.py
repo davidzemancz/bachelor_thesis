@@ -23,7 +23,6 @@ class Ride:
         self.nodes = nodes
 
 class VRP:
-
     def __init__(self, depot_node, nodes_count, dist):
         self.depot_node = depot_node
         self.nodes_count = nodes_count
