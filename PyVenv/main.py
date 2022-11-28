@@ -2,10 +2,10 @@ from vrp import VRP,Ride,Vehicle,Order
 import vrp_drawer
 import vrp_solver
 
-vrp = VRP(0, 13)
+vrp = VRP(0, 13, lambda x,y : abs(x+y))
 vrp.vehicles = [
-    Vehicle(1, 3, 12),
-    Vehicle(2, 5, 22),
+    Vehicle(1, 3, 10),
+    Vehicle(2, 5, 10),
     Vehicle(3, 8, 36),
 ]
 vrp.orders = [

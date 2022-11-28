@@ -5,7 +5,7 @@ from matplotlib import pyplot as plt
 from matplotlib.animation import FuncAnimation
 from vrp import VRP,Ride,Vehicle,Order
 
-def draw(vrp):
+def draw(vrp : VRP):
     # Grid graph
     G = nx.Graph()
     plt.figure(figsize=(12,8))
@@ -15,7 +15,8 @@ def draw(vrp):
         for i in range(len(ride.nodes)-1):
             u = ride.nodes[i]
             v = ride.nodes[i+1]
-            G.add_edge(u, v, weight = 1/abs(u-v), len=abs(u-v))
+            dist = vrp.dist(u,v)
+            G.add_edge(u, v, weight = 1/dist if dist != 0 else 0, len=dist)
     pos = nx.spring_layout(G)
 
     # Nodes
