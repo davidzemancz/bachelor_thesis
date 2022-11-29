@@ -1,5 +1,8 @@
 
 
+import copy
+
+
 class Vehicle:
     NONE = None
 
@@ -34,6 +37,17 @@ class VRP:
         self.deliveries = []
         self.rides = []
 
+
+    def total_dist(self):
+        total_dist = 0.0
+        for ride in self.rides:
+            for i in range(len(ride.nodes)-1):
+                u = ride.nodes[i]
+                v = ride.nodes[i+1]
+                total_dist += self.dist(u,v)
+
+        return total_dist
+
     def vehicle(self, vehicleId) -> Vehicle:
         for v in self.vehicles:
             if v.id == vehicleId: return v
@@ -43,3 +57,6 @@ class VRP:
         for o in self.orders:
             if o.id == orderId: return o
         raise KeyError(orderId)
+
+    def copy(self):
+        return copy.deepcopy(self)

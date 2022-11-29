@@ -17,32 +17,35 @@ def draw(vrp : VRP):
             v = ride.nodes[i+1]
             dist = vrp.dist(u,v)
             G.add_edge(u, v, weight = 1/dist if dist != 0 else 0, len=dist)
+    #pos = nx.kamada_kawai_layout(G)
+    #pos = nx.planar_layout(G)
     pos = nx.spring_layout(G)
 
     # Nodes
+    node_size = 100
     nx.draw_networkx_nodes(     # basic nodes
         G, 
         pos, 
-        node_size = 600, 
+        node_size = node_size, 
         node_color="gray"
     )
     nx.draw_networkx_nodes(     # orders
         G, 
         pos,
-        node_size = 600,
+        node_size = node_size,
         nodelist=[order.node for order in vrp.orders],
         node_color="lightgreen",
     )
     nx.draw_networkx_nodes(     # depot
         G, 
         pos,
-        node_size = 600,
+        node_size = node_size,
         nodelist=[vrp.depot_node],
         node_color="lightblue"
     )
     labels = {order.node: f'{order.id};{order.demand}' for order in vrp.orders}
     labels[vrp.depot_node] = 'D'
-    nx.draw_networkx_labels(G, pos, labels)
+    #nx.draw_networkx_labels(G, pos, labels)
 
     # Draw edges
     for ride in vrp.rides:
@@ -55,7 +58,7 @@ def draw(vrp : VRP):
             alpha=1,
         )
     edge_labels = nx.get_edge_attributes(G, 'len')
-    nx.draw_networkx_edge_labels(G, pos=pos, label_pos=0.5, edge_labels=edge_labels)
+    #nx.draw_networkx_edge_labels(G, pos=pos, label_pos=0.5, edge_labels=edge_labels)
 
     # Plot graph
     plt.show()

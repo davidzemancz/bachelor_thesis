@@ -44,6 +44,7 @@ def solve(vrp : VRP):
     # Objective function
     solver.Minimize(sum([edge_vars[var_key] * vrp.dist(var_key[0], var_key[1]) for var_key in edge_vars]))
 
+    solver.SetTimeLimit(10 * 1000)
     status = solver.Solve()
 
     # Get solution if exists
