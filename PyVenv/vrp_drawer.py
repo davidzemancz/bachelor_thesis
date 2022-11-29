@@ -45,20 +45,21 @@ def draw(vrp : VRP):
     )
     labels = {order.node: f'{order.id};{order.demand}' for order in vrp.orders}
     labels[vrp.depot_node] = 'D'
-    #nx.draw_networkx_labels(G, pos, labels)
+    nx.draw_networkx_labels(G, pos, labels)
 
     # Draw edges
     for ride in vrp.rides:
+        ride_color = (random.uniform(0.5,1), random.uniform(0.5,1), random.uniform(0.5,1))
         nx.draw_networkx_edges(
             G,
             pos,
             edgelist=[(ride.nodes[i], ride.nodes[i+1]) for i in range(len(ride.nodes)-1)],
             width=4,
-            edge_color=(random.uniform(0.5,1), random.uniform(0.5,1), random.uniform(0.5,1)),
+            edge_color=ride_color,
             alpha=1,
         )
     edge_labels = nx.get_edge_attributes(G, 'len')
-    #nx.draw_networkx_edge_labels(G, pos=pos, label_pos=0.5, edge_labels=edge_labels)
+    nx.draw_networkx_edge_labels(G, pos=pos, label_pos=0.5, edge_labels=edge_labels)
 
     # Plot graph
     plt.show()
